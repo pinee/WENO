@@ -1,5 +1,5 @@
 #!/bmein/bash
- 
+#Changes need to be made according to the requirements
 for i in `seq 1001 1695`;
 do
 name="datarho${i}"
