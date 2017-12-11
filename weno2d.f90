@@ -1,5 +1,3 @@
-!Solving 1D-Sod's problem by finite volume approach
-!Weno scheme is used for spatial evolution and 3rd order RK is used for temporal evolution 
 program weno5
 	INTERFACE flux
 		Function flux (q,normal)
@@ -37,7 +35,6 @@ program weno5
 	xend=1
 	ystart=0
         yend=1
-		
 	dx=(xend-xstart)/nx
 	dy=(yend-ystart)/ny
 	x(1)=xstart
@@ -131,28 +128,9 @@ program weno5
 !		!RK Initial step
 !		!1st stage
                        q0=q
-!		print*,"q before is"
-!		do i=1,nx
-!		print*,"i=",i
-!		print*,"-----------------------------------------------"
-!		do j=1,ny
-!		write(*,*),q(i,j,:)
-!		end do
-!		end do
-!		print*,"-----------------------------------------------"
+		       
                         dF=WENO5LF2d(q,a,dx,dy) 
-			q = q0-dt*dF
-!		print*,"The value for dt is -------------------"
-!		write(*,*),dt
-!		print*,"q after is"
-!		do i=1,nx
-!		print*,"i=",i
-!		print*," -----------------------------------------------"
-!		do j=1,ny
-!		write(*,*),q(i,j,:)
-!		end do
-!		end do
-!		print*,"-----------------------------------------------"
+			q = q0-dt*d
 			do i=1,nx
 			do k=1,4
 				q(i,1,k)=q0(i,1,k)
