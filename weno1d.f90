@@ -15,27 +15,6 @@ program weno5
 		double precision WENO5LF1d (size(q,1),size(q,2))
 		End Function 
 	End INTERFACE
-!
-!          Interface triple
-!             Function triple (m)
-!                Real, intent(in) :: m(:,:)
-!                Real triple (size(m,1),size(m,2))
-!             End Function
-!          End Interface
-!          Real, Dimension(3,3) :: z,x
-!          x(:,:) = 0.0
-!          x(1,1) = 1.0
-!          x(2,2) = 1.0
-!          x(3,3) = 1.0
-!          z = triple(x)
-!          Print *, shape(z)
-!          Print *, z
-!    End Program
-!    Function triple(m)
-!        Real, intent(in) :: m(:,:)
-!        Real triple(size(m,1),size(m,2))
-!        triple =  m(:,:) * 3.0
-!    End Function
 	
 	!Declaration of variables---------------------------------------------------------------------
 	double precision                  :: lambda,dt,dt0,lambda0,PRL,alpha,CFL,tFinal,t=0,nE,gama,dx,x_middle,xstart,xend
@@ -54,17 +33,6 @@ program weno5
 	gama=1.4
 	xstart=-1
 	xend=1
-	!Testing cshift function
-		!temp=reshape((/1,2,3,4,5,6,7,8,9/),(/ 3,3 /))
-		!temp_shift=cshift(temp,-1,dim=2)
-		!print *,'(3i3)', temp(1,:)
-		!print *,'(3i3)', temp(2,:)
-		!print *,'(3i3)', temp(3,:)
-		!
-		!print *,'(3i3)', temp_shift(1,:)
-		!print *,'(3i3)', temp_shift(2,:)
-		!print *,'(3i3)', temp_shift(3,:)
-		
 	dx=(xend-xstart)/nE
 	x(1)=xstart
 	do i=2,N
@@ -72,12 +40,10 @@ program weno5
 	end do
 	!Defining initial conditions-------------------------------------------------------------------
 	x_middle=(xend+xstart)/2
-	!print *," x_middle=",x_middle
 	!Sod's Problem
 	rhoi=(/1.0,0.125/)
 	pi=(/1.0,0.1/)
 	ui=(/0.0,0.0/)
-	
 	do i=1,N
 	if (x(i)>x_middle) then
 	p0(i)=pi(2)
@@ -108,11 +74,6 @@ program weno5
 	!print *,"F0(3,1)=",F(3,1)
 	!Exact solution----------------------------------------------------------------------------------
 	alpha=(gama+1)/(gama-1)
-	!PRL=p(2)/p(1)
-	!cright=SQRT(gama*p(2)/rho(2))
-	!cleft=SQRT(gama*p(1)/rho(1))
-	!CRL=cright/cleft
-	!MACHLEFT=(u(2)-u(1))/cleft
 	lambda0=MAXVAL(ABS(u0)+a0)
 	dt0=CFL*dx/lambda0
 	!Solver loop-------------------------------------------------------------------------------------
@@ -161,9 +122,6 @@ program weno5
                 	if(t+dt>tFinal)then
 				dt=tFinal-t
                 	end if
-
-
-
 		!Update time and iteration count
 			t=t+dt
 			it=it+1
@@ -201,11 +159,6 @@ program weno5
  
 
 end program weno5
-!Function triple(m)
-!    Real, intent(in) :: m(:,:)
-!    Real triple(size(m,1),size(m,2))
-!    triple =  m(:,:) * 3.0
-!End Function
 Function flux(q)
        integer, parameter   :: N=201
        double precision, intent(in)     :: q(:,:)
